@@ -57,23 +57,25 @@ export default function Header() {
                     {/* Heart Icon End */}
 
                     {/* Cart Icon Start */}
-                    <div className="w-8 md:w-12 h-8 md:h-12 
-                        rounded-full flex justify-center 
-                        items-center hover:bg-black/[0.05] 
-                        ursor-pointer relative">
-                        <BsCart className="text-[15px] md:text-[20px]" />
-                        <div className="h-[14px] md:h-[18px] min-w-[14px] 
-                        md:min-w-[18px] rounded-full bg-red-600 absolute top-1 left-5 
-                        md:left-7 text-white text-[10px] md:text-[12px] flex justify-center 
-                        items-center px-[2px] md:px-[5px]">5</div>
-                    </div>
+                    <Link href="/cart">
+                        <div className="w-8 md:w-12 h-8 md:h-12 
+                            rounded-full flex justify-center 
+                            items-center hover:bg-black/[0.05] 
+                            ursor-pointer relative">
+                            <BsCart className="text-[15px] md:text-[20px]" />
+                            <div className="h-[14px] md:h-[18px] min-w-[14px] 
+                            md:min-w-[18px] rounded-full bg-red-600 absolute top-1 left-5 
+                            md:left-7 text-white text-[10px] md:text-[12px] flex justify-center 
+                            items-center px-[2px] md:px-[5px]">5</div>
+                        </div>
+                    </Link>
                     {/* Cart Icon End */}
 
                     {/* Mobile Icon Start */}
                     <div className="w-8 md:w-12 h-8 md:h-12 
                         rounded-full flex justify-center 
                         items-center hover:bg-black/[0.05] 
-                        ursor-pointer relative -mr-2">
+                        ursor-pointer relative -mr-2 lg:hidden md:hidden">
                         {
                             mobileMenu ? (
                                 <VscChromeClose className="text-[16px]"
