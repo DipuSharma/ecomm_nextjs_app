@@ -9,7 +9,11 @@ module.exports = {
   ],
   theme: {
     fontFamily: {oswald: "Oswald, sans-serif", urbanist: "Urbanist, sans-serif"},
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'my_bg_image' : "url('../public/background.jpeg')",
+      },
+    },
   },
   plugins: [],
 }
