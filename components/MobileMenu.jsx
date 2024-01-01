@@ -49,7 +49,10 @@ const MobileMenu = ({ showCatMenu, setShowCatMenu }) => {
                                     })}
                                 </ul>)}
                             </li>) : (
-                                <li className="py-4 px-5 border-b"><Link href={item.url} onClick={() => setMobileMenu(false)}>{item.name}</Link></li>
+                                <li className="py-4 px-5 border-b">
+                                    <Link href={item.url} onClick={() => setMobileMenu(false)}>{item.name}
+                                    </Link>
+                                </li>
                             )}
                     </React.Fragment>
                 )

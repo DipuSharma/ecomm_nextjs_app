@@ -30,7 +30,7 @@ export default function App({ Component, pageProps, router }) {
           {/* <AdminHeader/> */}
           <Component {...pageProps} />
         </Sidebar>
-        
+
       </>
     );
   }

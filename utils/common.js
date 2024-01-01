@@ -9,7 +9,7 @@ export const getUser = () => {
 
 }
 
-export const getToken = () => {
+export const getAuthToken = () => {
     if (typeof window !== 'undefined') {
         // Perform localStorage action
         const userToken = localStorage.getItem('token')
@@ -30,9 +30,9 @@ export const getRegiToken = () => {
     }
 }
 
-export const setUserSession = (token, user) => {
+export const setUserSession = (token) => {
     localStorage.setItem("token", token);
-    localStorage.setItem("user", user);
+    // localStorage.setItem("user", user);
 }
 
 export const setRegistrationSession = (data) => {

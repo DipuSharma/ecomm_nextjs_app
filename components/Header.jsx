@@ -2,21 +2,23 @@ import React, { useState, useEffect } from "react";
 import Wrapper from "./Wrapper";
 import Link from "next/link";
 import Menu from "./Menu";
+import ProfileMenu from "./ProfileMenu";
 import MobileMenu from "./MobileMenu";
 import { BsCart } from "react-icons/bs";
-import { IoMdHeartEmpty } from "react-icons/io";
+import { IoMdHeartEmpty} from "react-icons/io";
 import { BiMenuAltRight } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
 import { useRouter } from "next/router";
 
-import { getUser, getToken, removeUserSession } from "@/utils/common";
+import { getUser, getAuthToken, removeUserSession } from "@/utils/common";
 
 const Header = () => {
     const user = getUser()
-    const token = getToken()
+    const token = getAuthToken()
     const router = useRouter()
     const [mobileMenu, setMobileMenu] = useState(false);
     const [showCatMenu, setShowCatMenu] = useState(false);
+    const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [show, setShow] = useState("translate-y-0");
     const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -53,7 +55,7 @@ const Header = () => {
 
                 <div className="flex items-center gap-2 text-black">
 
-                    {user ? (<>
+                    {token ? (<>
                         {/* Heart Icon Start */}
                         <div className="w-8 md:w-12 h-8 md:h-12 
                         rounded-full flex justify-center 
@@ -81,13 +83,15 @@ const Header = () => {
                             </div>
                         </Link>
                         {/* Cart Icon End */}
-                        
+
+                        {/* Profile Icon Start */}
+                        <ProfileMenu showProfileMenu={showProfileMenu} setShowProfileMenu={setShowProfileMenu}/>
                     </>) : (
                         <>
                             <div className="flex gap-3">
                                 {/* SignIn and SignUp button */}
                                 {/* SignIn Button start*/}
-                                <Link href="/auth">
+                                <Link href="/signup">
                                     <div className="mr-3 inline-block rounded px-6 pb-2 pt-2.5 text-xs 
                                     font-bold uppercase leading-normal text-primary transition 
                                     duration-150 ease-in-out hover:bg-blue-500 hover:text-white
@@ -101,7 +105,7 @@ const Header = () => {
                                 {/* SignIn button end */}
 
                                 {/* SignUp Button start*/}
-                                <Link href="/auth" >
+                                <Link href="/signup" >
                                     <div className="mr-3 inline-block rounded px-6 pb-2 pt-2.5 
                                     text-xs uppercase leading-normal text-primary 
                                     transition duration-150 ease-in-out hover:bg-blue-500
