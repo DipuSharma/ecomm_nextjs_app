@@ -1,14 +1,46 @@
-import React from "react";
 import AdminHeader from "@/components/AdminComponents/Header";
 import AdminFooter from "@/components/AdminComponents/Footer";
 import TopCards from "@/components/AdminComponents/TopCards";
 import BarChart from "@/components/AdminComponents/BarChart";
 import RecentOrders from "@/components/AdminComponents/RecentOrders";
+import { getAuthToken } from "@/utils/common";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
 const Home = () => {
+    const router = useRouter()
+    if(!getAuthToken()){
+        router.push("/signin")
+    }
+    const [record, setRecord] = useState(null)
+    async function fetchProfile(token) {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/me`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        }).then(response => response.json())
+            .then(data => {
+                const result = data;
+                if(result.data){
+                    console.log(result.data);
+                    setRecord(result.data)
+                }
+            })
+            .catch(error => console.error(error));
+    }
+    useEffect(() => {
+        history.pushState(null, '', router.asPath);
+        window.addEventListener('popstate', function (event) {
+            history.pushState(null, '', router.asPath);
+        });
+        fetchProfile(getAuthToken())
+    }, [])
+
     return (
         <main className="bg-gray-100 min-h-screen">
-            <AdminHeader />
+            <AdminHeader data={record} />
             <TopCards />
             <div className="p-4 grid md:grid-cols-3 grid-cols-1 gap-4">
                 <BarChart />
