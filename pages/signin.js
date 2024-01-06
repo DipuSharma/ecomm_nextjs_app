@@ -9,24 +9,33 @@ export default function SignIn() {
     const [state, setState] = useState({
         username: "",
         password: "",
+        checkbox: "",
     })
-    // let data=({state.username, state.password})
     async function handleSubmit() {
-        alert(JSON.stringify(state))
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
             method: "POST",
             headers: {
                 "content-Type": "application/json",
             },
             body: JSON.stringify(state)
+        }).then(response => response.json())
+        .then(data => {
+            const posts = data;
+            console.log(posts);
+            if(posts.detail){
+                alert(posts.detail)
+            }
+            if(posts.data){
+                setUserSession(posts.data.access_token)
+                if(posts.data.is_admin){
+                    router.push('/admin')
+                }
+                if(posts.data.is_user){
+                    router.push('/user/profile')
+                }
+            }
         })
-        if(res) {
-            const result = await res.json()
-            setUserSession(result.data.access_token)
-            router.push('/auth')
-        } else {
-            router.push('/signin')
-        }
+        .catch(error => console.error(error));
     }
     function handleChange(e) {
         const copy = { ...state }
@@ -34,14 +43,6 @@ export default function SignIn() {
         setState(copy)
     }
 
-    useEffect(() => {
-        // fetchProfile()
-    }, [])
-
-    function logout() {
-        localStorage.removeItem("token")
-        router.push("/")
-    }
     return (
         <div className="relative min-h-screen bg-purple-100 backdrop-blur flex justify-center 
         items-center bg-texture bg-cover py-28 sm:py-0">
@@ -61,10 +62,9 @@ export default function SignIn() {
                     </div>
                     <div className="px-10 pt-4 pb-8 rounded-3xl shadow-xl">
                         <div className="mx-auto text-center">
-                            <h1 className="text-4xl text-gray-800">Register</h1>
-                            <p className="mt-4">How do you want to sign up ?</p>
+                            <h1 className="text-4xl text-gray-400">Login</h1>
                         </div>
-                        <div className="flex items-center text-center justify-around mt-6">
+                        {/* <div className="flex items-center text-center justify-around mt-6">
                             <div className="w-10 h-10 text-center rounded-full bg-blue-300 text-white saturate-200 transition-all hover:bg-blue-600">
                                 <Link href="#" className="block mt-3 ml-3">
                                     <BsFacebook className="" />
@@ -85,15 +85,14 @@ export default function SignIn() {
                                     <BsInstagram />
                                 </Link>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="flex items-center my-6">
                             <hr className="flex-1" />
-                            <span className="px-4 text-sm text-gray-400">Or continue with </span>
+                            {/* <span className="px-4 text-sm text-gray-400"></span> */}
                             <hr className="flex-1" />
                         </div>
-                        {/* onSubmit={handleSubmit(onSubmit)} */}
                         <form method="POST">
-                            <div className="relative">
+                            <div className="mt-8 relative">
                                 <input id="email" 
                                 name="username" 
                                 type="email" 
@@ -102,7 +101,7 @@ export default function SignIn() {
                                 className="peer w-full px-0.5 border-0 border-b-2 border-gray-300 placeholder-transparent focus:ring-0 focus:border-purple-600 focus:outline-none" placeholder="Please enter valid email @xyz.com" />
                                 <label htmlFor="email" className="absolute left-0 -top-5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:-top-0.5 peer-focus:-top-5 peer-focus:text-purple-600 peer-focus:text-sm">Email</label>
                             </div>
-                            <div className="mt-10 relative">
+                            <div className="mt-8 relative">
                                 <input id="password" 
                                 name="password" 
                                 type="password"
@@ -113,7 +112,7 @@ export default function SignIn() {
                             </div>
                             <div className="mt-10">
                                 <label className="inline-flex items-center">
-                                    <input type="checkbox" className="rounded border-gray-300 text-purple-600 focus:border-purple-300 focus:ring focus:ring-offset-0 focus:ring-purple-200/50 focus:outline-none font-semibold" defaultChecked />
+                                    <input name="checkbox" type="checkbox" value={state.checkbox} className="rounded border-gray-300 text-purple-600 focus:border-purple-300 focus:ring focus:ring-offset-0 focus:ring-purple-200/50 focus:outline-none font-semibold" />
                                     <span className="ml-2 text-sm">Check here that you have agree to <Link href="#" className="font-semibold text-purple-600 hover:underline">the terms.</Link></span>
                                 </label>
                             </div>

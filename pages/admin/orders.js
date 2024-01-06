@@ -7,7 +7,7 @@ const Orders = () => {
         <div className="bg-gray-100 min-h-screen">
             <div className="flex justify-between px-4 pt-4">
                 <h2>Orders</h2>
-                <h2>Welcome Back, Client</h2>
+                <h2>Welcome Back, Admin</h2>
             </div>
             {/* Admin Orders Page Body Start  */}
             <div className="p-4">

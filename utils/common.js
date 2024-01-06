@@ -14,8 +14,8 @@ export const getAuthToken = () => {
         // Perform localStorage action
         const userToken = localStorage.getItem('token')
         if (userToken) return userToken;
-        if (userToken === 'undefined') return 'undefined';
-        else return null
+        if (userToken === 'undefined') return false;
+        else return false
     };
 
 }
@@ -45,5 +45,4 @@ export const removeRegistrationSession = () => {
 
 export const removeUserSession = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
 }

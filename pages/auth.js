@@ -1,44 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { BsFacebook, BsGoogle, BsTwitter, BsInstagram } from "react-icons/bs";
-import { setUserSession } from "@/utils/common";
-
-import Link from "next/link";
+import { getAuthToken, removeUserSession } from "@/utils/common"
 import { useRouter } from "next/router";
-export default function Me() {
+export default function Auth() {
+    const [content, setContent] = useState(null)
     const router = useRouter()
-
-    // let data=({state.username, state.password})
-    // async function handleSubmit() {
-    //     alert(JSON.stringify(state))
-    //     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-    //         method: "POST",
-    //         headers: {
-    //             "content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(state)
-    //     })
-    //     if(res) {
-    //         const result = await res.json()
-    //         setUserSession(result.data.access_token)
-    //         // router.push('')
-    //     } else {
-    //         router.push('/signin')
-    //     }
-    // }
-
-    useEffect(() => {
-        // fetchProfile()
-    }, [])
-
-    function logout() {
-        localStorage.removeItem("token")
-        router.push("/")
+    async function authUser(token) {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/me`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        }).then(response => response.json())
+            .then(data => {
+                const posts = data.data;
+                if(posts.is_admin){
+                    router.replace('/admin')
+                }
+                if(posts.is_user){
+                    router.push('/user/profile')
+                }
+                // setContent(posts)
+            })
+            .catch(error => console.error(error));
     }
+    if (getAuthToken()) {
+        useEffect(() => {
+            authUser(getAuthToken())
+        }, [])
+    }
+
     return (
         <div className="relative min-h-screen bg-purple-100 backdrop-blur flex justify-center 
         items-center bg-texture bg-cover py-28 sm:py-0">
             <div className="p-4 sm:p-8 flex-1">
-                
+                {/* <h1>Auth Page {content.id}</h1>
+                <p> Admin {content.is_admin}</p> */}
             </div>
         </div>
 

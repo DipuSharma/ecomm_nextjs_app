@@ -91,17 +91,17 @@ const Header = () => {
                             <div className="flex gap-3">
                                 {/* SignIn and SignUp button */}
                                 {/* SignIn Button start*/}
-                                <Link href="/signup">
+                                {/* <Link href="/signup">
                                     <div className="mr-3 inline-block rounded px-6 pb-2 pt-2.5 text-xs 
                                     font-bold uppercase leading-normal text-primary transition 
                                     duration-150 ease-in-out hover:bg-blue-500 hover:text-white
                                     focus:text-primary-600 focus:outline-none focus:ring-0 
-                                    active:text-primary-700 motion-reduce:transition-none">
+                                    active:text-primary-700 motion-reduce:transition-none"> */}
                                         {/* <BsCart className="text-[15px] md:text-[20px]" /> */}
-                                        SignIn
+                                        {/* SignIn
                                     </div>
 
-                                </Link>
+                                </Link> */}
                                 {/* SignIn button end */}
 
                                 {/* SignUp Button start*/}
