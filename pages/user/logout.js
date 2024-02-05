@@ -36,9 +36,6 @@ export default function Logout() {
     return (
         <div className="relative min-h-screen bg-purple-100 backdrop-blur flex justify-center 
         items-center bg-texture bg-cover py-28 sm:py-0">
-            <div className="p-4 sm:p-8 flex-1">
-            <h2>Logout</h2>
-            </div>
         </div>
 
     )

@@ -1,14 +1,13 @@
 import React from "react";
 import { FaShoppingBag } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import AdminHeader from "@/components/AdminComponents/Header.jsx";
 import { data } from '../../data/data.js';
 const Orders = () => {
+    const page_data = "ORDER"
     return (
         <div className="bg-gray-100 min-h-screen">
-            <div className="flex justify-between px-4 pt-4">
-                <h2>Orders</h2>
-                <h2>Welcome Back, Admin</h2>
-            </div>
+            <AdminHeader page_data={page_data} />
             {/* Admin Orders Page Body Start  */}
             <div className="p-4">
                 <div className="w-full m-auto p-4 border rounded-lg bg-white overflow-hidden">
