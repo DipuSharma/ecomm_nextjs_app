@@ -1,13 +1,12 @@
 import React from "react";
 import { BsPersonFill, BsThreeDotsVertical } from "react-icons/bs";
+import AdminHeader from "@/components/AdminComponents/Header.jsx";
 import { data } from '../../data/data.js';
 const Customers = () => {
+    const page_data = "CUSTOMERS"
     return (
         <div className="bg-gray-100 min-h-screen">
-            <div className="flex justify-between p-4">
-                <h2>Customers</h2>
-                <h2> Welcome Back, Client</h2>
-            </div>
+            <AdminHeader page_data={page_data} props={JSON.parse(localStorage.getItem("user_data"))} />
             <div className="p-4">
                 <div className="w-full m-auto p-4 border rounded-lg bg-white
                 overflow-y-auto">

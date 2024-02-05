@@ -8,10 +8,8 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 const Home = () => {
+    const page_data = "DASHBOARD"
     const router = useRouter()
-    if(!getAuthToken()){
-        router.push("/signin")
-    }
     const [record, setRecord] = useState(null)
     async function fetchProfile(token) {
         await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/me`, {
@@ -23,9 +21,9 @@ const Home = () => {
         }).then(response => response.json())
             .then(data => {
                 const result = data;
-                if(result.data){
-                    console.log(result.data);
+                if (result.data) {
                     setRecord(result.data)
+                    localStorage.setItem("user_data", JSON.stringify(result?.data))
                 }
             })
             .catch(error => console.error(error));
@@ -40,11 +38,11 @@ const Home = () => {
 
     return (
         <main className="bg-gray-100 min-h-screen">
-            <AdminHeader data={record} />
+            <AdminHeader page_data={page_data}/>
             <TopCards />
             <div className="p-4 grid md:grid-cols-3 grid-cols-1 gap-4">
                 <BarChart />
-                <RecentOrders/>
+                <RecentOrders />
             </div>
             <AdminFooter />
         </main>

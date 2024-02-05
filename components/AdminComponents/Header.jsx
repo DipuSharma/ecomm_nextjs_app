@@ -1,11 +1,16 @@
-import { removeUserSession } from "@/utils/common";
 import { useRouter } from "next/router";
 import { getAuthToken } from "@/utils/common";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { AiOutlineLogout } from "react-icons/ai";
-const AdminHeader = (props) => {
+import { getUserDetails } from "@/utils/common";
+const AdminHeader = ({page_data}) => {
     const router = useRouter()
-    function logout() {
+    const [record, setRecord] = useState(null)
+
+    useEffect(() => {
+        setRecord(JSON.parse(getUserDetails()))
+    }, [getUserDetails()])
+    async function logout() {
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/logout`, {
             method: 'POST',
             headers: {
@@ -20,6 +25,8 @@ const AdminHeader = (props) => {
                 }
                 if(result) {
                     localStorage.removeItem("token")
+                    localStorage.removeItem("admin")
+                    localStorage.removeItem("user_data")
                     router.push('/signin')
                 }
             })
@@ -33,8 +40,8 @@ const AdminHeader = (props) => {
     }, [])
     return (
         <div className="flex justify-between px-4 pt-4">
-            <h2>Dashboard</h2>
-            <h3>Welcome Back, {props.data.first_name} {props.data.last_name}</h3>
+            <h2>{page_data}</h2>
+            <h3>Welcome Back, {record?.first_name} {record?.last_name}</h3>
             <button type="button" onClick={logout}><AiOutlineLogout/></button>
         </div>
     )

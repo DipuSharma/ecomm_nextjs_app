@@ -1,0 +1,81 @@
+const AuthMenu = () => {
+    const user = getUser()
+    const [token, setToken] = useState(false)
+    const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+    // if(authtoken){
+    //     setToken(true)
+    // }
+
+    // function profileMenuOn() { setShowProfileMenu(!showProfileMenu) }
+    const handleToggle = () => {
+        setShowProfileMenu(!showProfileMenu)
+    };
+    return (
+        <>
+            {
+                token ? (
+                    <>
+                        <Link href="/cart">
+                            <div className="w-8 md:w-12 h-8 md:h-12 
+                                    rounded-full flex justify-center 
+                                    items-center hover:bg-black/[0.05] 
+                                    cursor-pointer relative">
+                                <BsCart className="text-[15px] md:text-[20px]" />
+                                <div className="h-[14px] md:h-[18px] min-w-[14px] 
+                                    md:min-w-[18px] rounded-full bg-red-600 absolute top-1 left-5 
+                                    md:left-7 text-white text-[10px] md:text-[12px] flex justify-center 
+                                    items-center px-[2px] md:px-[5px]">5</div>
+                            </div>
+                        </Link>
+                        {/* Profile Icon Start */}
+                        <button id="dropdownDefaultButton" type="button" data-dropdown-toggle="dropdown" onClick={handleToggle} class="w-8 md:w-12 h-8 md:h-12 
+                                    rounded-full flex justify-center 
+                                    items-center hover:bg-black/[0.05] 
+                                    cursor-pointer relative">
+                            <AiOutlineUser className="text-[15px] md:text-[20px]" />
+                        </button>
+                        {showProfileMenu && (
+                            <ul aria-labelledby="dropdownDefaultButton"
+                                className="absolute lg:left-700 top-full mt-1 min-w-[100px] lg:min-w-[200px] overflow-hidden rounded-2xl bg-white"
+                                style={{ marginLeft: 50 }}>
+                                {subMenuData.map((submenu) => {
+                                    return (
+                                        <Link key={submenu.id} href={`/user/${submenu.value}`} onClick={() => setShowProfileMenu(false)}>
+                                            <li className="h-12 flex justify-between 
+                                                items-center px-3 hover:bg-black/[0.03] rounded-md">
+                                                {submenu.name}
+                                            </li>
+                                        </Link>
+                                    )
+                                })}
+                            </ul>
+                        )}
+                        {/* Profile Icon End */}
+                    </>) : (
+                    <>
+                        <div className="flex gap-3">
+
+                            {/* SignUp Button start*/}
+                            <Link href="/signup" >
+                                <div className="mr-3 inline-block rounded px-6 pb-2 pt-2.5 
+                                    text-xs uppercase leading-normal text-primary 
+                                    transition duration-150 ease-in-out focus:text-primary-600 focus:outline-none 
+                                    focus:ring-0 active:text-primary-700 
+                                    motion-reduce:transition-none font-bold">
+                                    <RiLoginCircleLine className="text-[15px] md:text-[20px]" />
+                                </div>
+
+                            </Link>
+                            {/* SignUp button end */}
+
+                        </div>
+                    </>
+                )
+            }
+
+        </>
+    )
+}
+
+export default AuthMenu;

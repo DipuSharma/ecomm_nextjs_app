@@ -1,7 +1,7 @@
-export const getUser = () => {
+export const getUserDetails = () => {
     if (typeof window !== 'undefined') {
         // Perform localStorage action
-        const userStr = localStorage.getItem('user')
+        const userStr = localStorage.getItem('user_data')
         if (userStr) return userStr;
         if (userStr === 'undefined') return 'undefined';
         else return null
@@ -45,4 +45,7 @@ export const removeRegistrationSession = () => {
 
 export const removeUserSession = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user_data")
+    localStorage.removeItem("user")
+    localStorage.removeItem("admin")
 }

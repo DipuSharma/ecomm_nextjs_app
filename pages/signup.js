@@ -32,15 +32,6 @@ export default function SignUp() {
         data[e.target.name] = e.target.value
         setState(data)
     }
-
-    useEffect(() => {
-        // fetchProfile()
-    }, [])
-
-    function logout() {
-        localStorage.removeItem("token")
-        router.push("/")
-    }
     return (
         <div className="relative min-h-screen bg-purple-100 backdrop-blur flex justify-center 
         items-center bg-texture bg-cover py-28 sm:py-0">

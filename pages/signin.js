@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { BsFacebook, BsGoogle, BsTwitter, BsInstagram } from "react-icons/bs";
 import { setUserSession } from "@/utils/common";
 
@@ -12,30 +12,27 @@ export default function SignIn() {
         checkbox: "",
     })
     async function handleSubmit() {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
             method: "POST",
             headers: {
                 "content-Type": "application/json",
             },
             body: JSON.stringify(state)
-        }).then(response => response.json())
-        .then(data => {
-            const posts = data;
-            console.log(posts);
-            if(posts.detail){
-                alert(posts.detail)
-            }
-            if(posts.data){
-                setUserSession(posts.data.access_token)
-                if(posts.data.is_admin){
-                    router.push('/admin')
-                }
-                if(posts.data.is_user){
-                    router.push('/user/profile')
-                }
-            }
         })
-        .catch(error => console.error(error));
+        const data = await response.json();
+        if (!response.ok) {
+            setErrorMessage(data.detail);
+        }
+        if (data?.data?.is_admin === true){
+            localStorage.setItem("token", data?.data?.access_token)
+            localStorage.setItem("admin", data?.data?.is_admin)
+            router.push('/admin')
+        }
+        if (data?.data?.is_user) {
+            localStorage.setItem("token", data?.data?.access_token)
+            localStorage.setItem("user", data?.data?.is_user)
+            router.push('/user')
+        }
     }
     function handleChange(e) {
         const copy = { ...state }
@@ -93,21 +90,21 @@ export default function SignIn() {
                         </div>
                         <form method="POST">
                             <div className="mt-8 relative">
-                                <input id="email" 
-                                name="username" 
-                                type="email" 
-                                value={state.username} 
-                                onChange={handleChange} 
-                                className="peer w-full px-0.5 border-0 border-b-2 border-gray-300 placeholder-transparent focus:ring-0 focus:border-purple-600 focus:outline-none" placeholder="Please enter valid email @xyz.com" />
+                                <input id="email"
+                                    name="username"
+                                    type="email"
+                                    value={state.username}
+                                    onChange={handleChange}
+                                    className="peer w-full px-0.5 border-0 border-b-2 border-gray-300 placeholder-transparent focus:ring-0 focus:border-purple-600 focus:outline-none" placeholder="Please enter valid email @xyz.com" />
                                 <label htmlFor="email" className="absolute left-0 -top-5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:-top-0.5 peer-focus:-top-5 peer-focus:text-purple-600 peer-focus:text-sm">Email</label>
                             </div>
                             <div className="mt-8 relative">
-                                <input id="password" 
-                                name="password" 
-                                type="password"
-                                value={state.password} 
-                                onChange={handleChange}
-                                className="peer w-full px-0.5 border-0 border-b-2 border-gray-300 placeholder-transparent focus:ring-0 focus:border-purple-600 font-bold focus:outline-none" placeholder="Password" />
+                                <input id="password"
+                                    name="password"
+                                    type="password"
+                                    value={state.password}
+                                    onChange={handleChange}
+                                    className="peer w-full px-0.5 border-0 border-b-2 border-gray-300 placeholder-transparent focus:ring-0 focus:border-purple-600 font-bold focus:outline-none" placeholder="Password" />
                                 <label htmlFor="password" className="absolute left-0 -top-5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:-top-0.5 peer-focus:-top-5 peer-focus:text-purple-600 peer-focus:text-sm">Password</label>
                             </div>
                             <div className="mt-10">
@@ -116,10 +113,10 @@ export default function SignIn() {
                                     <span className="ml-2 text-sm">Check here that you have agree to <Link href="#" className="font-semibold text-purple-600 hover:underline">the terms.</Link></span>
                                 </label>
                             </div>
-                            <button 
-                            type="button"
-                            onClick={handleSubmit}
-                            className="w-full mt-14 py-2 text-lg text-white font-semibold text-center rounded-full bg-purple-500 transition-all hover:bg-purple-600 focus:outline-none">Sign in</button>
+                            <button
+                                type="button"
+                                onClick={handleSubmit}
+                                className="w-full mt-14 py-2 text-lg text-white font-semibold text-center rounded-full bg-purple-500 transition-all hover:bg-purple-600 focus:outline-none">Sign in</button>
                             {/* <p className="text-center text-sm text-gray-400 mt-4">Already registred user ? <Link href="/signin" className="font-semibold text-purple-600 hover:underline">Log in</Link></p> */}
                         </form>
                     </div>
